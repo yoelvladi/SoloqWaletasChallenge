@@ -1,0 +1,9 @@
+.git/
+node_modules/
+.next/
+.env*
+data/
+coverage/
+*.log
+*.tsbuildinfo
+preview*

@@ -1,0 +1,39 @@
+{
+  "name": "soloq-waletas-challenge",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "node --use-system-ca node_modules/next/dist/bin/next dev --hostname 127.0.0.1 --port 3000",
+    "build": "next build",
+    "start": "node --use-system-ca node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 3000",
+    "start:railway": "node scripts/start-railway.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "auth:link": "node --use-system-ca --env-file=.env.local --import tsx scripts/auth-link.ts",
+    "riot:check": "node --use-system-ca --env-file=.env.local --import tsx scripts/check-riot.ts",
+    "history:sync": "node --use-system-ca --env-file-if-exists=.env.local --import tsx scripts/sync-history.ts",
+    "preflight": "node --use-system-ca --env-file-if-exists=.env.local --import tsx scripts/preflight.ts",
+    "backup": "node --use-system-ca --env-file-if-exists=.env.local --import tsx scripts/backup.ts",
+    "smoke": "node --use-system-ca --env-file-if-exists=.env.local --import tsx scripts/smoke.ts",
+    "verify": "npm run typecheck && npm test && npm run build"
+  },
+  "dependencies": {
+    "better-auth": "^1.7.7",
+    "next": "^16.0.0",
+    "nodemailer": "^10.0.14",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "server-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/nodemailer": "^8.0.2",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0"
+  },
+  "engines": {
+    "node": ">=24.0.0 <25"
+  }
+}
