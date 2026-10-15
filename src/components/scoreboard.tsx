@@ -7,7 +7,7 @@ import { AccountHeader } from "./account-header";
 import { RankEmblem, HextechSigil } from "./rank-emblem";
 import { ranks, rankLabel as formatRank } from "@/lib/ranks";
 import { CHALLENGE_PERIOD_LABEL, challengeWinrate } from "@/lib/challenge-period";
-import { mainRoles } from "@/lib/roles";
+import { PlayerIdentity } from "./player-identity";
 
 const initialPlayers: Standing[] = players.map(p => ({ id: p.id, gameName: p.gameName, tagLine: p.tagLine, position: null, status: "setup", message: "Pendiente de consulta", player: null, stale: false, nextRefreshAt: null }));
 
@@ -24,13 +24,11 @@ function PlayerRow({ entry, now }: { entry: Standing; now: number }) {
   const record = entry.challengeRecord;
   const totals = record?.totals;
   const winrate = challengeWinrate(totals);
-  const roles = mainRoles(totals?.roles);
-  const rolesNote = !totals?.roles ? record?.status === "error" ? "Roles no disponibles" : "Calculando roles…" : totals.wins + totals.losses === 0 ? "Sin partidas" : "Roles sin identificar";
   const recordNote = !record ? "Pendiente de historial" : record.status !== "ready" ? (totals ? "Dato anterior · " : "") + record.message : totals && totals.wins + totals.losses === 0 ? "Sin partidas en el período" : "";
   const rankLabel = rank ? formatRank(rank.tier, rank.division) : entry.player ? "Sin clasificar" : entry.code === "account_not_found" ? "Cuenta no encontrada" : entry.status === "error" ? "Consulta pendiente" : "Por consultar";
   return <tr className={`player-row ${entry.position === 1 ? "leader-row" : ""}`}>
     <td className="position">{entry.position ? String(entry.position).padStart(2, "0") : "—"}</td>
-    <td><div className="identity"><span className="avatar" aria-hidden="true">{entry.gameName.slice(0, 1).toUpperCase()}</span><div><strong>{entry.gameName}</strong><span className="riot-tag">#{entry.tagLine}<span className="region-inline">LAS</span></span><div className="player-roles" aria-label="Roles más jugados desde el 30 de septiembre de 2026">{roles.length ? roles.map((item, i) => <span key={item.role} className={`role-badge ${i === 0 ? "role-primary" : ""}`} title={`${i === 0 ? "Principal" : "Secundario"}: ${item.games} partidas en ${item.role}${record?.status !== "ready" ? " · Historial anterior" : ""}${totals?.roles?.unknown ? ` · ${totals.roles.unknown} partidas sin rol identificado` : ""}`}>{item.role}<span className="role-games">{item.games}</span></span>) : <span className="role-pending">{rolesNote}</span>}</div></div></div></td>
+    <td><PlayerIdentity entry={entry}/></td>
     <td><div className={`rank-chip ${rank ? "has-rank" : ""}`}><RankEmblem tier={rank?.tier}/><div><strong>{rankLabel}</strong><span>{rank ? `${rank.lp} LP` : entry.player ? "Sin rango Solo/Duo disponible" : "Sin datos confirmados"}</span><span className={`row-freshness ${entry.stale || entry.status === "error" ? "row-warning" : ""}`}>{entry.stale ? "Dato anterior · " : ""}{entry.player ? ago(entry.player.checkedAt, now) : entry.status === "error" ? "Revisar cuenta" : "Esperando a Riot"}</span></div></div></td>
     <td className="number record" title={totals ? `Historial consultado: ${new Date(totals.checkedAt).toLocaleString("es-CL", { timeZone: "America/Santiago" })}` : undefined}>{totals ? <><span className="wins">{totals.wins}</span><span className="record-divider"> / </span><span>{totals.losses}</span></> : "—"}{recordNote && <span className={`record-note ${record?.status === "error" ? "row-warning" : ""}`}>{recordNote}</span>}</td>
     <td className="number"><strong className="winrate">{winrate !== null ? `${winrate}%` : "—"}</strong>{winrate !== null && <div className="winrate-track"><span style={{ width: `${winrate}%` }}/></div>}</td>

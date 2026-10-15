@@ -67,7 +67,15 @@ td { padding:10px 16px; border-top-color:#1a3442; }
 .player-row td:first-child { box-shadow:inset 2px 0 var(--accent); }
 .position { font:600 22px var(--display); color:#7294a7; }
 .identity { gap:13px; }
-.player-roles { display:flex; align-items:center; gap:5px; margin-top:6px; }
+.player-details { min-width:0; }
+.player-heading { display:flex; align-items:center; gap:9px; }
+.player-profile { color:var(--text); text-decoration:none; border-radius:2px; }
+.player-profile:hover { color:var(--cyan); text-decoration:underline; text-underline-offset:3px; }
+.player-profile:focus-visible { outline:2px solid var(--cyan); outline-offset:4px; }
+.player-profile strong { margin-bottom:0; }
+.player-alias { color:#9eb9c8; font-weight:400; }
+.profile-arrow { color:#69b8c6; font-size:11px; margin-left:5px; }
+.player-meta { display:flex; align-items:center; gap:10px; margin-top:6px; }
 .role-badge { display:inline-flex; align-items:center; gap:5px; border:1px solid #345361; border-radius:2px; padding:2px 5px; background:#102532; color:#9fbac8; font:600 10px/1.4 var(--body); letter-spacing:.4px; }
 .role-badge.role-primary { color:#ead39a; border-color:#796740; background:#312b1b80; }
 .role-games { color:#95aeb9; font-size:9px; font-weight:400; letter-spacing:0; }

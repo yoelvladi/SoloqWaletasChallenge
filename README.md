@@ -109,7 +109,9 @@ Los jugadores se configuran en `src/lib/players.ts`. Todos usan LA2/AMERICAS, in
 
 ## Roles principales
 
-Cada jugador muestra sus dos posiciones más jugadas en las mismas partidas del desafío: `TOP`, `JG`, `MID`, `ADC` y `SUPP`. El primer distintivo dorado es el principal; el segundo es el secundario. El número indica cuántas partidas jugó en esa posición.
+Cada jugador muestra sus dos posiciones más jugadas en las mismas partidas del desafío: `TOP`, `JG`, `MID`, `ADC` y `SUPP`. El distintivo dorado junto al nombre es la línea principal; debajo se conserva la secundaria. El número indica cuántas partidas jugó en esa posición.
+
+Los nombres enlazan al perfil correspondiente de OP.GG en LAS y abren en otra pestaña. Se utiliza el Riot ID real, codificando los espacios; la clave entre paréntesis es solo una etiqueta visual. Estas claves se configuran en el campo `alias` de `src/lib/players.ts` y no cambian las cuentas de Riot ni los identificadores del historial.
 
 Se usa `teamPosition` de Match-V5. Los empates se resuelven por la partida más reciente en cada posición y después por un orden fijo. Si solo hay una posición registrada, se muestra una; una partida sin posición válida cuenta para V/D, pero no se le inventa un rol. Los historiales antiguos se amplían automáticamente con posiciones y conservan sus últimos totales completos mientras se actualizan.
 
